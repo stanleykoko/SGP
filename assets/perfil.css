@@ -1,0 +1,340 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3e9ee;
+  color: #4a2f27;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ---------- Estrutura geral ---------- */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+aside {
+  width: 230px;
+  background: #5a3a2e;
+  color: #f3e9ee;
+  padding: 20px 0;
+}
+
+aside .title {
+  padding: 0 20px 20px;
+  border-bottom: 1px solid #7a5a4c;
+}
+
+aside .title h1 {
+  font-size: 20px;
+}
+
+aside ul {
+  list-style: none;
+  padding-top: 10px;
+}
+
+aside .secnav {
+  padding: 16px 20px 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #c9a98f;
+}
+
+aside li a {
+  display: block;
+  padding: 10px 20px;
+  color: #f3e9ee;
+}
+
+aside li a:hover,
+aside li a.active {
+  background: #8b5e4a;
+}
+
+.containermain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 16px 28px;
+  border-bottom: 1px solid #e0d0d6;
+}
+
+.pagetitle h2 {
+  font-size: 20px;
+}
+
+.pagetitle p {
+  font-size: 13px;
+  color: #8b6b5e;
+}
+
+.userdetailstxt p:first-child {
+  font-weight: bold;
+}
+
+.userdetailstxt p:last-child {
+  font-size: 12px;
+  color: #8b6b5e;
+}
+
+main {
+  padding: 28px;
+}
+
+/* ---------- Cartão e abas ---------- */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(90, 58, 46, 0.12);
+  overflow: hidden;
+}
+
+.tab-toggle {
+  display: none;
+}
+
+.card-header {
+  border-bottom: 1px solid #e0d0d6;
+  background: #faf4f6;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tab-label {
+  padding: 14px 22px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #8b6b5e;
+  border-bottom: 3px solid transparent;
+}
+
+#tab-cad:checked~.card-header label[for="tab-cad"],
+#tab-lista:checked~.card-header label[for="tab-lista"],
+#tab-perfis:checked~.card-header label[for="tab-perfis"] {
+  color: #5a3a2e;
+  border-bottom-color: #8b5e4a;
+  background: #fff;
+}
+
+.panel {
+  display: none;
+  padding: 24px;
+}
+
+#tab-cad:checked~.panel-cad,
+#tab-lista:checked~.panel-lista,
+#tab-perfis:checked~.panel-perfis {
+  display: block;
+}
+
+.msg {
+  margin: 16px 24px 0;
+  padding: 10px 14px;
+  background: #f1e2d3;
+  border-left: 4px solid #8b5e4a;
+  border-radius: 4px;
+}
+
+/* ---------- Formulários ---------- */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.label-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label-group.full {
+  grid-column: 1 / -1;
+}
+
+.label-group label {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="tel"],
+select {
+  padding: 10px;
+  border: 1px solid #cdb8bf;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+  color: #4a2f27;
+}
+
+input[readonly] {
+  background: #f3ecef;
+}
+
+/* ---------- Botões ---------- */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.btn-sm {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.btn-primary {
+  background: #8b5e4a;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #6e4838;
+}
+
+.btn-secondary {
+  background: #e6d3c4;
+  color: #5a3a2e;
+}
+
+.btn-secondary:hover {
+  background: #d8bfae;
+}
+
+.table-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* ---------- Tabelas ---------- */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #eadde2;
+  font-size: 14px;
+}
+
+th {
+  background: #f1e2d3;
+  color: #5a3a2e;
+}
+
+.col-sel {
+  width: 40px;
+}
+
+/* ---------- Checkboxes de permissões ---------- */
+.perm-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 12px;
+  background: #faf4f6;
+  border: 1px solid #e0d0d6;
+  border-radius: 8px;
+}
+
+.perm-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.perm-check input {
+  accent-color: #8b5e4a;
+}
+
+.panel-perfis form+form {
+  margin-top: 30px;
+}
+
+/* ---------- Modal (só CSS) ---------- */
+.modal-toggle {
+  display: none;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(40, 25, 20, 0.55);
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.modal-toggle:checked+.modal-overlay {
+  display: flex;
+}
+
+.modal {
+  background: #fff;
+  width: 520px;
+  max-width: 92%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: #5a3a2e;
+  color: #fff;
+}
+
+.modal-close {
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid #eadde2;
+}
