@@ -1,7 +1,5 @@
 <?php
-
 include_once(__DIR__ . "/../Model/Perfil.php");
-
 include_once(__DIR__ . "/sessao.php");
 verificarLogin();
 $conexao = mysqli_connect("localhost", "root", "", "sgpessoa");
@@ -48,20 +46,27 @@ function encontraPerfilPorId($id)
     return montarPerfil($rs);
 }
 
-// Devolve o perfil do utilizador que está com a sessão iniciada
-function encontraPerfilPorUsername($username)
+function encontraPerfilPorNome($nome)
 {
     global $conexao;
-    $username = mysqli_real_escape_string($conexao, $username);
-    $sql = "select p.* from perfil p
-            inner join cadastro c on c.codigoPerfil = p.codigoPerfil
-            where c.username = '$username'";
-    $result = mysqli_query($conexao, $sql);
+    $nome = mysqli_real_escape_string($conexao, $nome);
+    $result = mysqli_query($conexao, "select * from perfil where nomePerfil = '$nome'");
     $rs = mysqli_fetch_assoc($result);
     if (!$rs) {
         return null;
     }
     return montarPerfil($rs);
+}
+
+// Perfil de quem está logado.
+// Funciona se nivelAcesso na sessão for o código (1, 2, 3...) ou o nome (ADMINISTRADOR...)
+function encontraPerfilDaSessao()
+{
+    $nivel = $_SESSION['nivelAcesso'] ?? '';
+    if (is_numeric($nivel)) {
+        return encontraPerfilPorId($nivel);
+    }
+    return encontraPerfilPorNome($nivel);
 }
 
 function criarPerfil($perfil)
@@ -129,7 +134,7 @@ function removerPerfil($id)
     }
 
     // Não remover se ainda houver utilizadores com este perfil
-    $result = mysqli_query($conexao, "select * from cadastro where codigoPerfil = $id");
+    $result = mysqli_query($conexao, "select * from cadastro where nivelAcesso = $id");
     if (mysqli_num_rows($result) > 0) {
         return "Não se pode remover: há utilizadores com este perfil";
     }

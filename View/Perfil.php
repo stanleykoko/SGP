@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/../Controller/controllerPerfil.php';
 
-// O perfil de quem está logado vem da sessão (nivelAcesso guarda o código do perfil)
-$meuPerfil = encontraPerfilPorId($_SESSION['nivelAcesso'] ?? 0);
+// O perfil de quem está logado vem da sessão
+$meuPerfil = encontraPerfilDaSessao();
 
 // Só entra quem tem a permissão "Gerir perfis"
 if (!$meuPerfil || !$meuPerfil->getPerfis()) {
