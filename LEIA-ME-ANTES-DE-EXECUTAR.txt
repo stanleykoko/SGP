@@ -1,0 +1,23 @@
+SGP — CORRECÇÃO DO ERRO ERR_TOO_MANY_REDIRECTS
+
+1. Copie a pasta SGP para C:\xampp\htdocs\ (Windows) ou para a pasta htdocs do seu XAMPP.
+2. Inicie Apache e MySQL no painel do XAMPP.
+3. Abra http://localhost/phpmyadmin
+4. No phpMyAdmin, importe SGP/database/sgpessoa.sql. O dump cria e preenche as tabelas da base de dados sgpessoa; se necessário, crie primeiro a base de dados com esse nome.
+5. Abra http://localhost/SGP/View/Login.php
+6. Se já tinha o SGP aberto, feche o separador e abra uma janela anónima, ou elimine os cookies de localhost.
+
+O QUE FOI CORRIGIDO
+- Removida a inclusão de controllerPerfil.php de controllerCadastroUser.php. O controlador de perfis fazia verificarLogin() imediatamente ao ser incluído; como o Login inclui o controlador de utilizadores, isso podia enviar o visitante de volta para Login repetidamente.
+- A autorização do módulo de perfis passou para View/Perfil.php, em vez de acontecer como efeito secundário da inclusão do controlador.
+- Cadastro.php inclui o controlador de perfis explicitamente, depois de validar a permissão de gerir utilizadores, porque precisa de listar os perfis disponíveis.
+- A negação de permissões devolve HTTP 403 com uma mensagem e não redirecciona para uma página que pode exigir a mesma permissão, prevenindo ciclos de redireccionamento.
+- Foi preenchido database/conexao.php com uma configuração de ligação útil; os controladores existentes ainda usam as credenciais locais directamente, pelo que este ficheiro é informativo até uma futura centralização completa.
+
+IMPORTANTE SOBRE A BASE DE DADOS E CONTAS
+- O ZIP contém o código PHP/CSS e uma cópia do SQL em SGP/database/sgpessoa.sql.
+- As credenciais e senhas que constam do SQL dependem dos dados já existentes. Se nenhuma conta conseguir entrar, confirme no phpMyAdmin a tabela cadastro e utilize uma conta cuja senha conheça.
+- A aplicação usa localhost, utilizador MySQL root e senha vazia por predefinição, como é habitual numa instalação local simples do XAMPP. Ajuste as ligações PHP se a sua configuração for diferente.
+
+VALIDAÇÃO
+Os ficheiros PHP foram verificados quanto a erros de sintaxe com o PHP CLI, quando disponível. O comportamento final também depende da configuração local do Apache/PHP/MySQL e da importação correcta do SQL.
