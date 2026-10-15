@@ -4,7 +4,6 @@
     Sessao::exigirPermissao('logs');
 
     $campos = array(
-        "codigoLog" => "ID",
         "accao"     => "Ação",
         "usuario"   => "Utilizador",
         "perfil"    => "Perfil",
@@ -14,9 +13,9 @@
     $campo = isset($_GET['campo']) ? trim($_GET['campo']) : "";
     $valor = isset($_GET['valor']) ? trim($_GET['valor']) : "";
 
-    if (!array_key_exists($campo, $campos)) {
+    // se o campo for invalido, pesquisa em todos os campos (mantem o texto escrito)
+    if ($campo !== "" && !array_key_exists($campo, $campos)) {
         $campo = "";
-        $valor = "";
     }
 
     $logs = listarLogs($campo, $valor);
@@ -30,6 +29,41 @@
         <title>Listar Log</title>
 
         <link rel="stylesheet" href="../assets/estilo.css">
+        <style>
+            .cabecalho .pesquisa {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .cabecalho .pesquisa select,
+            .cabecalho .pesquisa input[type="text"] {
+                height: 48px;
+                padding: 0 18px;
+                background: #fff;
+                border: 1px solid #e6d5bf;
+                border-radius: 999px;
+                font-family: inherit;
+                font-size: 14px;
+                color: inherit;
+                outline: none;
+                box-sizing: border-box;
+            }
+
+            .cabecalho .pesquisa select {
+                cursor: pointer;
+            }
+
+            .cabecalho .pesquisa input[type="text"] {
+                width: 260px;
+            }
+
+            .cabecalho .pesquisa select:focus,
+            .cabecalho .pesquisa input[type="text"]:focus {
+                border-color: #6b4435;
+            }
+        </style>
     </head>
 
     <body>
@@ -61,7 +95,7 @@
 
                 <form method="get" action="" class="pesquisa">
                     <select name="campo" id="campo">
-                        <option value="">Pesquisar por...</option>
+                        <option value="">Todos os campos</option>
                         <?php foreach ($campos as $chave => $nome) { ?>
                             <option value="<?= $chave ?>" <?= ($chave === $campo) ? "selected" : "" ?>><?= $nome ?></option>
                         <?php } ?>
@@ -69,8 +103,7 @@
 
                     <input type="text" name="valor" id="valor"
                            placeholder="Pesquisar e carregar Enter"
-                           value="<?= $valor ?>">
-                    <button type="submit" class="botao-atualizar">Pesquisar</button>
+                           value="<?= htmlspecialchars($valor) ?>">
                 </form>
             </div>
 
